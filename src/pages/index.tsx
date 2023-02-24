@@ -1,5 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
+import { useRouter } from "next/router";
 import styled from "styled-components";
+// import { useContext } from "react";
+// import { AuthContext } from "@/context/AuthContext";
+// import { ThreeDots } from "react-loader-spinner";
+// import Main from "../bim/Main";
+// import { GetServerSideProps } from "next";
+// import { parseCookies } from "nookies";
 
 const StyledDiv = styled.div`
   background-image: url("/assets/background.png");
@@ -39,34 +46,114 @@ const StyledDiv = styled.div`
       transition: background-color 0.2s ease;
       border-radius: 2px;
       border: 0;
+      display: grid;
+      place-items: center;
 
       &:hover {
         background-color: #336c72;
+
+        &:disabled {
+          background-color: #15323a;
+        }
       }
     }
   }
 `;
 
 export default function Home() {
+  const router = useRouter()
 
+  function goToWelcomePage() {
+    router.push('/welcome')
+
+  }
   return (
     <StyledDiv>
       <img
         src="/assets/orion-arq-marca-final.png"
         alt="orion"
       />
-      <form>
+      <form onSubmit={(e) => e.preventDefault()}>
         <input
-          placeholder="Usuário"
-          type="text"
+          placeholder="Email"
+          type="email"
+          name="email"
         />
         <input
           placeholder="Senha"
           type="password"
+          name="password"
+          required
         />
         <hr />
-        <button>Entrar</button>
+
+        <button onClick={goToWelcomePage}>Entrar</button>
       </form>
     </StyledDiv>
   );
 }
+
+// export default function Home({isOrionEmail}:any) {
+//   const { login, error, loading } = useContext(AuthContext);
+
+//   console.log(isOrionEmail)
+
+//   if (error) {
+//     window.alert(error.message);
+//   }
+
+//   if (isOrionEmail) {
+//     return <Main />
+//   }
+
+//   return (
+//     <StyledDiv>
+//       <img
+//         src="/assets/orion-arq-marca-final.png"
+//         alt="orion"
+//       />
+//       <form onSubmit={(e) => e.preventDefault()}>
+//         <input
+//           placeholder="Email"
+//           type="email"
+//           name="email"
+//         />
+//         <input
+//           placeholder="Senha"
+//           type="password"
+//           name="password"
+//           required
+//         />
+//         <hr />
+
+//         <button
+//           onClick={login}
+//           disabled={loading ? true : false}
+//         >
+//           {loading ? (
+//             <ThreeDots
+//               height="15"
+//               width="20"
+//               radius={1}
+//               color="#fff"
+//               visible={true}
+//             />
+//           ) : (
+//             "Entrar"
+//           )}
+//         </button>
+//       </form>
+//     </StyledDiv>
+//   );
+// }
+
+// export const getServerSideProps: GetServerSideProps = async (context) => {
+//   const nookieResponse = parseCookies(context);
+//   const isOrionEmail = /.+@orionarquitetura.com/.test(JSON.parse(nookieResponse.userData).email)
+
+//   return {
+//     props: {
+//       isOrionEmail: isOrionEmail ? true : false,
+//     },
+//   };
+// };
